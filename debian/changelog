@@ -1,5 +1,53 @@
-template-repository (1.0-1) unstable; urgency=medium
+postgresql-16 (16.0-2) unstable; urgency=medium
 
-  * Initial release
+  * Use LLVM 15 for JIT support, 16 is not supported yet. (Closes: #1051881)
 
- -- Tsic404 <liuheng@deepin.org>  Sat, 28 Jan 2023 13:46:49 +0800
+ -- Christoph Berg <myon@debian.org>  Thu, 14 Sep 2023 09:13:57 +0200
+
+postgresql-16 (16.0-1) unstable; urgency=medium
+
+  * First PostgreSQL 16 release.
+
+ -- Christoph Berg <myon@debian.org>  Mon, 11 Sep 2023 22:41:53 +0200
+
+postgresql-16 (16~rc1-2) experimental; urgency=medium
+
+  * Disable jit on loong64; PG does not support LLVM 16 yet while LLVM
+    versions before 16 do not support loong64. (Closes: #1051385)
+  * Introduce build profile pkg.postgresql.nolibpkgs.
+  * Cherry-pick WIP patches to stabilize tests on s390x.
+
+ -- Christoph Berg <myon@debian.org>  Thu, 07 Sep 2023 14:14:52 +0200
+
+postgresql-16 (16~rc1-1) experimental; urgency=medium
+
+  * New release candidate version.
+
+ -- Christoph Berg <myon@debian.org>  Tue, 29 Aug 2023 15:58:19 +0200
+
+postgresql-16 (16~beta3-1) experimental; urgency=medium
+
+  * New beta version.
+  * Bump postgresql-common dependency to 252, required for alternatives.
+  * Test-Depend on tzdata-legacy | tzdata (<< 2023c-8).
+
+ -- Christoph Berg <myon@debian.org>  Thu, 10 Aug 2023 13:57:07 +0200
+
+postgresql-16 (16~beta2-1) experimental; urgency=medium
+
+  * New beta version.
+
+ -- Christoph Berg <myon@debian.org>  Wed, 28 Jun 2023 15:41:55 +0200
+
+postgresql-16 (16~beta1-2) experimental; urgency=medium
+
+  * Bump postgresql-common B-D to 250 to ignore test failures on alpha et al.
+  * Define IOV_MAX on hurd-i386.
+
+ -- Christoph Berg <myon@debian.org>  Wed, 24 May 2023 11:11:53 +0200
+
+postgresql-16 (16~beta1-1) experimental; urgency=medium
+
+  * New major upstream version 16; packaging based on postgresql-15.
+
+ -- Christoph Berg <myon@debian.org>  Tue, 23 May 2023 14:05:19 +0200
