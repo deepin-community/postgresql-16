@@ -2,12 +2,12 @@
 .\"     Title: pg_upgrade
 .\"    Author: The PostgreSQL Global Development Group
 .\" Generator: DocBook XSL Stylesheets vsnapshot <http://docbook.sf.net/>
-.\"      Date: 2023
-.\"    Manual: PostgreSQL 16.0 Documentation
-.\"    Source: PostgreSQL 16.0
+.\"      Date: 2024
+.\"    Manual: PostgreSQL 16.3 Documentation
+.\"    Source: PostgreSQL 16.3
 .\"  Language: English
 .\"
-.TH "PG_UPGRADE" "1" "2023" "PostgreSQL 16.0" "PostgreSQL 16.0 Documentation"
+.TH "PG_UPGRADE" "1" "2024" "PostgreSQL 16.3" "PostgreSQL 16.3 Documentation"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -40,7 +40,7 @@ pg_migrator) allows data stored in
 PostgreSQL
 data files to be upgraded to a later
 PostgreSQL
-major version without the data dump/restore typically required for major version upgrades, e\&.g\&., from 9\&.5\&.8 to 9\&.6\&.4 or from 10\&.7 to 11\&.2\&. It is not required for minor version upgrades, e\&.g\&., from 9\&.6\&.2 to 9\&.6\&.3 or from 10\&.1 to 10\&.2\&.
+major version without the data dump/restore typically required for major version upgrades, e\&.g\&., from 12\&.14 to 13\&.10 or from 14\&.9 to 15\&.5\&. It is not required for minor version upgrades, e\&.g\&., from 12\&.7 to 12\&.8 or from 14\&.1 to 14\&.5\&.
 .PP
 Major PostgreSQL releases regularly add new features that often change the layout of the system tables, but the internal data storage format rarely changes\&.
 pg_upgrade
@@ -379,7 +379,7 @@ Stop both servers: Make sure both database servers are stopped using, on Unix, e
 .RS 4
 .\}
 .nf
-pg_ctl \-D /opt/PostgreSQL/9\&.6 stop
+pg_ctl \-D /opt/PostgreSQL/12 stop
 pg_ctl \-D /opt/PostgreSQL/16 stop
 .fi
 .if n \{\
@@ -392,14 +392,14 @@ or on Windows, using the proper service names:
 .RS 4
 .\}
 .nf
-NET STOP postgresql\-9\&.6
+NET STOP postgresql\-12
 NET STOP postgresql\-16
 .fi
 .if n \{\
 .RE
 .\}
 .sp
-Streaming replication and log\-shipping standby servers can remain running until a later step\&.
+Streaming replication and log\-shipping standby servers must be running during this shutdown so they receive all changes\&.
 .RE
 .sp
 .RS 4
@@ -415,7 +415,7 @@ Step 11, verify that the old standby servers are caught up by running
 pg_controldata
 against the old primary and standby clusters\&. Verify that the
 \(lqLatest checkpoint location\(rq
-values match in all clusters\&. (There will be a mismatch if old standby servers were shut down before the old primary or if the old standby servers are still running\&.) Also, make sure
+values match in all clusters\&. Also, make sure
 \fIwal_level\fR
 is not set to
 minimal
@@ -470,9 +470,9 @@ with quoted directories, e\&.g\&.:
 .\}
 .nf
 pg_upgrade\&.exe
-        \-\-old\-datadir "C:/Program Files/PostgreSQL/9\&.6/data"
+        \-\-old\-datadir "C:/Program Files/PostgreSQL/12/data"
         \-\-new\-datadir "C:/Program Files/PostgreSQL/16/data"
-        \-\-old\-bindir "C:/Program Files/PostgreSQL/9\&.6/bin"
+        \-\-old\-bindir "C:/Program Files/PostgreSQL/12/bin"
         \-\-new\-bindir "C:/Program Files/PostgreSQL/16/bin"
 .fi
 .if n \{\
@@ -637,8 +637,8 @@ manual page for details on specifying the remote directory, e\&.g\&.,
 .RS 4
 .\}
 .nf
-rsync \-\-archive \-\-delete \-\-hard\-links \-\-size\-only \-\-no\-inc\-recursive /opt/PostgreSQL/9\&.5 \e
-      /opt/PostgreSQL/9\&.6 standby\&.example\&.com:/opt/PostgreSQL
+rsync \-\-archive \-\-delete \-\-hard\-links \-\-size\-only \-\-no\-inc\-recursive /opt/PostgreSQL/12 \e
+      /opt/PostgreSQL/16 standby\&.example\&.com:/opt/PostgreSQL
 .fi
 .if n \{\
 .RE
@@ -666,8 +666,8 @@ command for each tablespace directory, e\&.g\&.:
 .RS 4
 .\}
 .nf
-rsync \-\-archive \-\-delete \-\-hard\-links \-\-size\-only \-\-no\-inc\-recursive /vol1/pg_tblsp/PG_9\&.5_201510051 \e
-      /vol1/pg_tblsp/PG_9\&.6_201608131 standby\&.example\&.com:/vol1/pg_tblsp
+rsync \-\-archive \-\-delete \-\-hard\-links \-\-size\-only \-\-no\-inc\-recursive /vol1/pg_tblsp/PG_12_201909212 \e
+      /vol1/pg_tblsp/PG_16_202307071 standby\&.example\&.com:/vol1/pg_tblsp
 .fi
 .if n \{\
 .RE

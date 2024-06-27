@@ -1603,7 +1603,7 @@
 
   <para>
    Apply transaction locks are used in parallel mode to apply the transaction
-   in logical replication. The remote transaction id is displayed in the
+   in logical replication. The remote transaction ID is displayed in the
    <structfield>transactionid</structfield> column. The <structfield>objsubid</structfield>
    displays the lock subtype which is 0 for the lock used to synchronize the
    set of changes, and 1 for the lock used to wait for the transaction to
@@ -3823,7 +3823,7 @@ SELECT * FROM pg_locks pl LEFT JOIN pg_prepared_xacts ppx
    and <link linkend="catalog-pg-statistic-ext-data"><structname>pg_statistic_ext_data</structname></link>
    catalogs.  This view allows access only to rows of
    <link linkend="catalog-pg-statistic-ext"><structname>pg_statistic_ext</structname></link> and <link linkend="catalog-pg-statistic-ext-data"><structname>pg_statistic_ext_data</structname></link>
-   that correspond to tables the user has permission to read, and therefore
+   that correspond to tables the user owns, and therefore
    it is safe to allow public read access to this view.
   </para>
 
@@ -4034,7 +4034,7 @@ SELECT * FROM pg_locks pl LEFT JOIN pg_prepared_xacts ppx
    and <link linkend="catalog-pg-statistic-ext-data"><structname>pg_statistic_ext_data</structname></link>
    catalogs.  This view allows access only to rows of
    <link linkend="catalog-pg-statistic-ext"><structname>pg_statistic_ext</structname></link> and <link linkend="catalog-pg-statistic-ext-data"><structname>pg_statistic_ext_data</structname></link>
-   that correspond to tables the user has permission to read, and therefore
+   that correspond to tables the user owns, and therefore
    it is safe to allow public read access to this view.
   </para>
 

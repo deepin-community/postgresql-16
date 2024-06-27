@@ -2,12 +2,12 @@
 .\"     Title: ALTER EVENT TRIGGER
 .\"    Author: The PostgreSQL Global Development Group
 .\" Generator: DocBook XSL Stylesheets vsnapshot <http://docbook.sf.net/>
-.\"      Date: 2023
-.\"    Manual: PostgreSQL 16.0 Documentation
-.\"    Source: PostgreSQL 16.0
+.\"      Date: 2024
+.\"    Manual: PostgreSQL 16.3 Documentation
+.\"    Source: PostgreSQL 16.3
 .\"  Language: English
 .\"
-.TH "ALTER EVENT TRIGGER" "7" "2023" "PostgreSQL 16.0" "PostgreSQL 16.0 Documentation"
+.TH "ALTER EVENT TRIGGER" "7" "2024" "PostgreSQL 16.3" "PostgreSQL 16.3 Documentation"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -60,7 +60,7 @@ The user name of the new owner of the event trigger\&.
 The new name of the event trigger\&.
 .RE
 .PP
-DISABLE/ENABLE [ REPLICA | ALWAYS ] TRIGGER
+DISABLE/ENABLE [ REPLICA | ALWAYS ]
 .RS 4
 These forms configure the firing of event triggers\&. A disabled trigger is still known to the system, but is not executed when its triggering event occurs\&. See also
 session_replication_role\&.

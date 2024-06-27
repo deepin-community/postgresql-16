@@ -2,12 +2,12 @@
 .\"     Title: initdb
 .\"    Author: The PostgreSQL Global Development Group
 .\" Generator: DocBook XSL Stylesheets vsnapshot <http://docbook.sf.net/>
-.\"      Date: 2023
-.\"    Manual: PostgreSQL 16.0 Documentation
-.\"    Source: PostgreSQL 16.0
+.\"      Date: 2024
+.\"    Manual: PostgreSQL 16.3 Documentation
+.\"    Source: PostgreSQL 16.3
 .\"  Language: English
 .\"
-.TH "INITDB" "1" "2023" "PostgreSQL 16.0" "PostgreSQL 16.0 Documentation"
+.TH "INITDB" "1" "2024" "PostgreSQL 16.3" "PostgreSQL 16.3 Documentation"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -325,9 +325,9 @@ for further information\&.
 .br
 \fB\-\-username=\fR\fB\fIusername\fR\fR
 .RS 4
-Selects the user name of the
-bootstrap superuser\&. This defaults to the name of the
-cluster owner\&.
+Sets the user name of the
+bootstrap superuser\&. This defaults to the name of the operating\-system user running
+\fBinitdb\fR\&.
 .RE
 .PP
 \fB\-W\fR
