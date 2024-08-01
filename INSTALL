@@ -60,10 +60,10 @@ The following software packages are required for building PostgreSQL:
     "configure". Using this option disables support for compressed
     archives in pg_dump and pg_restore.
 
--   The ICU locale provider (see the documentation) is used by default.
-    If you don't want to use it then you must specify the
-    "--without-icu" option to "configure". Using this option disables
-    support for ICU collation features (see the documentation).
+-   The ICU library is used by default. If you don't want to use it then
+    you must specify the "--without-icu" option to "configure". Using
+    this option disables support for ICU collation features (see the
+    documentation).
 
     ICU support requires the ICU4C package to be installed. The minimum
     required version of ICU4C is currently 4.2.
@@ -907,9 +907,9 @@ the server, it is recommended to use at least the options
 
 --with-segsize-blocks=SEGSIZE_BLOCKS
 
-    Specify the segment size in blocks. If both "--with-segsize" and
-    this option are specified, this option wins. This option is only for
-    developers, to test segment related code.
+    Specify the relation segment size in blocks. If both
+    "--with-segsize" and this option are specified, this option wins.
+    This option is only for developers, to test segment related code.
 
 ------------------------------------------------------------------------
 

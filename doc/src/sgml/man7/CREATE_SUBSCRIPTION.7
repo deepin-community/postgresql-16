@@ -2,12 +2,12 @@
 .\"     Title: CREATE SUBSCRIPTION
 .\"    Author: The PostgreSQL Global Development Group
 .\" Generator: DocBook XSL Stylesheets vsnapshot <http://docbook.sf.net/>
-.\"      Date: 2023
-.\"    Manual: PostgreSQL 16.0 Documentation
-.\"    Source: PostgreSQL 16.0
+.\"      Date: 2024
+.\"    Manual: PostgreSQL 16.3 Documentation
+.\"    Source: PostgreSQL 16.3
 .\"  Language: English
 .\"
-.TH "CREATE SUBSCRIPTION" "7" "2023" "PostgreSQL 16.0" "PostgreSQL 16.0 Documentation"
+.TH "CREATE SUBSCRIPTION" "7" "2024" "PostgreSQL 16.3" "PostgreSQL 16.3 Documentation"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -256,7 +256,8 @@ false\&.
 .PP
 password_required (boolean)
 .RS 4
-Specifies whether connections to the publisher made as a result of this subscription must use password authentication\&. This setting is ignored when the subscription is owned by a superuser\&. The default is
+If set to
+true, connections to the publisher made as a result of this subscription must use password authentication and the password must be specified as a part of the connection string\&. This setting is ignored when the subscription is owned by a superuser\&. The default is
 true\&. Only superusers can set this value to
 false\&.
 .RE

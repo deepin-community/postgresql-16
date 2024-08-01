@@ -162,7 +162,8 @@ sql_help_ALTER_DEFAULT_PRIVILEGES(PQExpBuffer buf)
 					  "    ON TYPES\n"
 					  "    TO { [ GROUP ] %s | PUBLIC } [, ...] [ WITH GRANT OPTION ]\n"
 					  "\n"
-					  "GRANT { USAGE | CREATE | ALL [ PRIVILEGES ] }\n"
+					  "GRANT { { USAGE | CREATE }\n"
+					  "    [, ...] | ALL [ PRIVILEGES ] }\n"
 					  "    ON SCHEMAS\n"
 					  "    TO { [ GROUP ] %s | PUBLIC } [, ...] [ WITH GRANT OPTION ]\n"
 					  "\n"
@@ -193,7 +194,8 @@ sql_help_ALTER_DEFAULT_PRIVILEGES(PQExpBuffer buf)
 					  "    [ CASCADE | RESTRICT ]\n"
 					  "\n"
 					  "REVOKE [ GRANT OPTION FOR ]\n"
-					  "    { USAGE | CREATE | ALL [ PRIVILEGES ] }\n"
+					  "    { { USAGE | CREATE }\n"
+					  "    [, ...] | ALL [ PRIVILEGES ] }\n"
 					  "    ON SCHEMAS\n"
 					  "    FROM { [ GROUP ] %s | PUBLIC } [, ...]\n"
 					  "    [ CASCADE | RESTRICT ]",
@@ -1173,12 +1175,11 @@ static void
 sql_help_ALTER_SYSTEM(PQExpBuffer buf)
 {
 	appendPQExpBuffer(buf,
-					  "ALTER SYSTEM SET %s { TO | = } { %s | '%s' | DEFAULT }\n"
+					  "ALTER SYSTEM SET %s { TO | = } { %s [, ...] | DEFAULT }\n"
 					  "\n"
 					  "ALTER SYSTEM RESET %s\n"
 					  "ALTER SYSTEM RESET ALL",
 					  _("configuration_parameter"),
-					  _("value"),
 					  _("value"),
 					  _("configuration_parameter"));
 }
@@ -1300,7 +1301,7 @@ sql_help_ALTER_TABLE(PQExpBuffer buf)
 					  "\n"
 					  "%s\n"
 					  "\n"
-					  "{ %s | ( %s ) } [ %s ] [ ASC | DESC ] [ NULLS { FIRST | LAST } ]\n"
+					  "{ %s | ( %s ) } [ COLLATE %s ] [ %s [ ( %s = %s [, ... ] ) ] ] [ ASC | DESC ] [ NULLS { FIRST | LAST } ]\n"
 					  "\n"
 					  "%s\n"
 					  "\n"
@@ -1426,7 +1427,10 @@ sql_help_ALTER_TABLE(PQExpBuffer buf)
 					  _("exclude_element in an EXCLUDE constraint is:"),
 					  _("column_name"),
 					  _("expression"),
+					  _("collation"),
 					  _("opclass"),
+					  _("opclass_parameter"),
+					  _("value"),
 					  _("referential_action in a FOREIGN KEY/REFERENCES constraint is:"),
 					  _("column_name"),
 					  _("column_name"));
@@ -1711,7 +1715,7 @@ sql_help_ANALYZE(PQExpBuffer buf)
 					  "\n"
 					  "    VERBOSE [ %s ]\n"
 					  "    SKIP_LOCKED [ %s ]\n"
-					  "    BUFFER_USAGE_LIMIT [ %s ]\n"
+					  "    BUFFER_USAGE_LIMIT %s\n"
 					  "\n"
 					  "%s\n"
 					  "\n"
@@ -2188,7 +2192,7 @@ sql_help_CREATE_DATABASE(PQExpBuffer buf)
 					  "    [ WITH ] [ OWNER [=] %s ]\n"
 					  "           [ TEMPLATE [=] %s ]\n"
 					  "           [ ENCODING [=] %s ]\n"
-					  "           [ STRATEGY [=] %s ] ]\n"
+					  "           [ STRATEGY [=] %s ]\n"
 					  "           [ LOCALE [=] %s ]\n"
 					  "           [ LC_COLLATE [=] %s ]\n"
 					  "           [ LC_CTYPE [=] %s ]\n"
@@ -2886,7 +2890,7 @@ sql_help_CREATE_TABLE(PQExpBuffer buf)
 					  "\n"
 					  "%s\n"
 					  "\n"
-					  "{ %s | ( %s ) } [ %s ] [ ASC | DESC ] [ NULLS { FIRST | LAST } ]\n"
+					  "{ %s | ( %s ) } [ COLLATE %s ] [ %s [ ( %s = %s [, ... ] ) ] ] [ ASC | DESC ] [ NULLS { FIRST | LAST } ]\n"
 					  "\n"
 					  "%s\n"
 					  "\n"
@@ -2980,7 +2984,10 @@ sql_help_CREATE_TABLE(PQExpBuffer buf)
 					  _("exclude_element in an EXCLUDE constraint is:"),
 					  _("column_name"),
 					  _("expression"),
+					  _("collation"),
 					  _("opclass"),
+					  _("opclass_parameter"),
+					  _("value"),
 					  _("referential_action in a FOREIGN KEY/REFERENCES constraint is:"),
 					  _("column_name"),
 					  _("column_name"));
@@ -4069,7 +4076,9 @@ sql_help_MERGE(PQExpBuffer buf)
 					  "%s\n"
 					  "\n"
 					  "UPDATE SET { %s = { %s | DEFAULT } |\n"
-					  "             ( %s [, ...] ) = ( { %s | DEFAULT } [, ...] ) } [, ...]\n"
+					  "             ( %s [, ...] ) = [ ROW ] ( { %s | DEFAULT } [, ...] ) |\n"
+					  "             ( %s [, ...] ) = ( %s )\n"
+					  "           } [, ...]\n"
 					  "\n"
 					  "%s\n"
 					  "\n"
@@ -4098,6 +4107,8 @@ sql_help_MERGE(PQExpBuffer buf)
 					  _("expression"),
 					  _("column_name"),
 					  _("expression"),
+					  _("column_name"),
+					  _("sub-SELECT"),
 					  _("and merge_delete is:"));
 }
 
@@ -4438,7 +4449,7 @@ sql_help_SECURITY_LABEL(PQExpBuffer buf)
 					  "  DATABASE %s |\n"
 					  "  DOMAIN %s |\n"
 					  "  EVENT TRIGGER %s |\n"
-					  "  FOREIGN TABLE %s\n"
+					  "  FOREIGN TABLE %s |\n"
 					  "  FUNCTION %s [ ( [ [ %s ] [ %s ] %s [, ...] ] ) ] |\n"
 					  "  LARGE OBJECT %s |\n"
 					  "  MATERIALIZED VIEW %s |\n"
@@ -4965,7 +4976,7 @@ sql_help_VACUUM(PQExpBuffer buf)
 					  "    PARALLEL %s\n"
 					  "    SKIP_DATABASE_STATS [ %s ]\n"
 					  "    ONLY_DATABASE_STATS [ %s ]\n"
-					  "    BUFFER_USAGE_LIMIT [ %s ]\n"
+					  "    BUFFER_USAGE_LIMIT %s\n"
 					  "\n"
 					  "%s\n"
 					  "\n"
@@ -5179,7 +5190,7 @@ const struct _helpStruct QL_HELP[] = {
 		N_("define default access privileges"),
 		"sql-alterdefaultprivileges",
 		sql_help_ALTER_DEFAULT_PRIVILEGES,
-	59},
+	61},
 
 	{"ALTER DOMAIN",
 		N_("change the definition of a domain"),
@@ -6067,7 +6078,7 @@ const struct _helpStruct QL_HELP[] = {
 		N_("conditionally insert, update, or delete rows of a table"),
 		"sql-merge",
 		sql_help_MERGE,
-	27},
+	29},
 
 	{"MOVE",
 		N_("position a cursor"),

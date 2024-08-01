@@ -2,12 +2,12 @@
 .\"     Title: CREATE COLLATION
 .\"    Author: The PostgreSQL Global Development Group
 .\" Generator: DocBook XSL Stylesheets vsnapshot <http://docbook.sf.net/>
-.\"      Date: 2023
-.\"    Manual: PostgreSQL 16.0 Documentation
-.\"    Source: PostgreSQL 16.0
+.\"      Date: 2024
+.\"    Manual: PostgreSQL 16.3 Documentation
+.\"    Source: PostgreSQL 16.3
 .\"  Language: English
 .\"
-.TH "CREATE COLLATION" "7" "2023" "PostgreSQL 16.0" "PostgreSQL 16.0 Documentation"
+.TH "CREATE COLLATION" "7" "2024" "PostgreSQL 16.3" "PostgreSQL 16.3 Documentation"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -117,7 +117,7 @@ for details\&.
 DETERMINISTIC
 .RS 4
 Specifies whether the collation should use deterministic comparisons\&. The default is true\&. A deterministic comparison considers strings that are not byte\-wise equal to be unequal even if they are considered logically equal by the comparison\&. PostgreSQL breaks ties using a byte\-wise comparison\&. Comparison that is not deterministic can make the collation be, say, case\- or accent\-insensitive\&. For that, you need to choose an appropriate
-LC_COLLATE
+LOCALE
 setting
 \fIand\fR
 set the collation to not deterministic here\&.
