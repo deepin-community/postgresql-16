@@ -2,12 +2,12 @@
 .\"     Title: CREATE ROLE
 .\"    Author: The PostgreSQL Global Development Group
 .\" Generator: DocBook XSL Stylesheets vsnapshot <http://docbook.sf.net/>
-.\"      Date: 2023
-.\"    Manual: PostgreSQL 16.0 Documentation
-.\"    Source: PostgreSQL 16.0
+.\"      Date: 2024
+.\"    Manual: PostgreSQL 16.3 Documentation
+.\"    Source: PostgreSQL 16.3
 .\"  Language: English
 .\"
-.TH "CREATE ROLE" "7" "2023" "PostgreSQL 16.0" "PostgreSQL 16.0 Documentation"
+.TH "CREATE ROLE" "7" "2024" "PostgreSQL 16.3" "PostgreSQL 16.3 Documentation"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -69,6 +69,14 @@ CREATEROLE
 privilege or be a database superuser to use this command\&.
 .PP
 Note that roles are defined at the database cluster level, and so are valid in all databases in the cluster\&.
+.PP
+During role creation it is possible to immediately assign the newly created role to be a member of an existing role, and also assign existing roles to be members of the newly created role\&. The rules for which initial role membership options are enabled described below in the
+IN ROLE,
+ROLE, and
+ADMIN
+clauses\&. The
+\fBGRANT\fR(7)
+command has fine\-grained option control during membership creation, and the ability to modify these options after the new role is created\&.
 .SH "PARAMETERS"
 .PP
 \fIname\fR
@@ -117,33 +125,19 @@ INHERIT
 .br
 NOINHERIT
 .RS 4
-When the
+This affects the membership inheritance status when this role is added as a member of another role, both in this and future commands\&. Specifically, it controls the inheritance status of memberships added with this command using the
+IN ROLE
+clause, and in later commands using the
+ROLE
+clause\&. It is also used as the default inheritance status when adding this role as a member using the
 GRANT
-statement is used to confer membership in one role to another role, the
-GRANT
-may use the
-WITH INHERIT
-clause to specify whether the privileges of the granted role should be
-\(lqinherited\(rq
-by the new member\&. If the
-GRANT
-statement does not specify either inheritance behavior, the new
-GRANT
-will be created
-WITH INHERIT TRUE
-if the member role is set to
+command\&. If not specified,
 INHERIT
-and to
-WITH INHERIT FALSE
-if it is set to
-NOINHERIT\&.
+is the default\&.
 .sp
 In
 PostgreSQL
-versions before 16, the
-GRANT
-statement did not support
-WITH INHERIT\&. Therefore, changing this role\-level property would also change the behavior of already\-existing grants\&. This is no longer the case\&.
+versions before 16, inheritance was a role\-level attribute that controlled all runtime membership checks for that role\&.
 .RE
 .PP
 LOGIN
@@ -241,9 +235,15 @@ IN ROLE \fIrole_name\fR
 .RS 4
 The
 IN ROLE
-clause causes the new role to be automatically added as a member of the specified existing roles\&. (Note that there is no option to add the new role as an administrator; use a separate
-\fBGRANT\fR
-command to do that\&.)
+clause causes the new role to be automatically added as a member of the specified existing roles\&. The new membership will have the
+SET
+option enabled and the
+ADMIN
+option disabled\&. The
+INHERIT
+option will be enabled unless the
+NOINHERIT
+option is specified\&.
 .RE
 .PP
 IN GROUP \fIrole_name\fR
@@ -257,17 +257,26 @@ ROLE \fIrole_name\fR
 .RS 4
 The
 ROLE
-clause causes one or more specified existing roles to be automatically added as members of the new role\&. This in effect makes the new role a
-\(lqgroup\(rq\&.
+clause causes one or more specified existing roles to be automatically added as members, with the
+SET
+option enabled\&. This in effect makes the new role a
+\(lqgroup\(rq\&. Roles named in this clause with the role\-level
+INHERIT
+attribute will have the
+INHERIT
+option enabled in the new membership\&. New memberships will have the
+ADMIN
+option disabled\&.
 .RE
 .PP
 ADMIN \fIrole_name\fR
 .RS 4
 The
 ADMIN
-clause is like
-ROLE, but the named roles are added to the new role
-WITH ADMIN OPTION, giving them the right to grant membership in this role to others\&.
+clause has the same effect as
+ROLE, but the named roles are added as members of the new role with
+ADMIN
+enabled, giving them the right to grant membership in the new role to others\&.
 .RE
 .PP
 USER \fIrole_name\fR
@@ -306,18 +315,21 @@ The
 VALID UNTIL
 clause defines an expiration time for a password only, not for the role per se\&. In particular, the expiration time is not enforced when logging in using a non\-password\-based authentication method\&.
 .PP
-The
-INHERIT
-attribute governs inheritance of grantable privileges (that is, access privileges for database objects and role memberships)\&. It does not apply to the special role attributes set by
-\fBCREATE ROLE\fR
-and
-\fBALTER ROLE\fR\&. For example, being a member of a role with
+The role attributes defined here are non\-inheritable, i\&.e\&., being a member of a role with, e\&.g\&.,
 CREATEDB
-privilege does not immediately grant the ability to create databases, even if
+will not allow the member to create new databases even if the membership grant has the
 INHERIT
-is set; it would be necessary to become that role via
+option\&. Of course, if the membership grant has the
+SET
+option the member role would be able to
 \fBSET ROLE\fR
-before creating a database\&.
+to the createdb role and then create a new database\&.
+.PP
+The membership grants created by the
+IN ROLE,
+ROLE, and
+ADMIN
+clauses have the role executing this command as the grantor\&.
 .PP
 The
 INHERIT
@@ -425,10 +437,14 @@ The SQL standard defines the concepts of users and roles, but it regards them as
 PostgreSQL
 we have chosen to unify users and roles into a single kind of entity\&. Roles therefore have many more optional attributes than they do in the standard\&.
 .PP
-The behavior specified by the SQL standard is most closely approximated by giving users the
+The behavior specified by the SQL standard is most closely approximated creating SQL\-standard users as
+PostgreSQL
+roles with the
 NOINHERIT
-attribute, while roles are given the
+option, and SQL\-standard roles as
+PostgreSQL
+roles with the
 INHERIT
-attribute\&.
+option\&.
 .SH "SEE ALSO"
 SET ROLE (\fBSET_ROLE\fR(7)), ALTER ROLE (\fBALTER_ROLE\fR(7)), DROP ROLE (\fBDROP_ROLE\fR(7)), \fBGRANT\fR(7), \fBREVOKE\fR(7), \fBcreateuser\fR(1), createrole_self_grant

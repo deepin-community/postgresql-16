@@ -2,12 +2,12 @@
 .\"     Title: SET ROLE
 .\"    Author: The PostgreSQL Global Development Group
 .\" Generator: DocBook XSL Stylesheets vsnapshot <http://docbook.sf.net/>
-.\"      Date: 2023
-.\"    Manual: PostgreSQL 16.0 Documentation
-.\"    Source: PostgreSQL 16.0
+.\"      Date: 2024
+.\"    Manual: PostgreSQL 16.3 Documentation
+.\"    Source: PostgreSQL 16.3
 .\"  Language: English
 .\"
-.TH "SET ROLE" "7" "2023" "PostgreSQL 16.0" "PostgreSQL 16.0 Documentation"
+.TH "SET ROLE" "7" "2024" "PostgreSQL 16.3" "PostgreSQL 16.3 Documentation"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -42,9 +42,12 @@ This command sets the current user identifier of the current SQL session to be
 \fIrole_name\fR\&. The role name can be written as either an identifier or a string literal\&. After
 \fBSET ROLE\fR, permissions checking for SQL commands is carried out as though the named role were the one that had logged in originally\&.
 .PP
-The specified
-\fIrole_name\fR
-must be a role that the current session user is a member of\&. (If the session user is a superuser, any role can be selected\&.)
+The current session user must have the
+SET
+option for the specified
+\fIrole_name\fR, either directly or indirectly via a chain of memberships with the
+SET
+option\&. (If the session user is a superuser, any role can be selected\&.)
 .PP
 The
 SESSION

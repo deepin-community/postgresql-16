@@ -2,12 +2,12 @@
 .\"     Title: VACUUM
 .\"    Author: The PostgreSQL Global Development Group
 .\" Generator: DocBook XSL Stylesheets vsnapshot <http://docbook.sf.net/>
-.\"      Date: 2023
-.\"    Manual: PostgreSQL 16.0 Documentation
-.\"    Source: PostgreSQL 16.0
+.\"      Date: 2024
+.\"    Manual: PostgreSQL 16.3 Documentation
+.\"    Source: PostgreSQL 16.3
 .\"  Language: English
 .\"
-.TH "VACUUM" "7" "2023" "PostgreSQL 16.0" "PostgreSQL 16.0 Documentation"
+.TH "VACUUM" "7" "2024" "PostgreSQL 16.3" "PostgreSQL 16.3 Documentation"
 .\" -----------------------------------------------------------------
 .\" * Define some portability stuff
 .\" -----------------------------------------------------------------
@@ -50,7 +50,7 @@ where \fIoption\fR can be one of:
     PARALLEL \fIinteger\fR
     SKIP_DATABASE_STATS [ \fIboolean\fR ]
     ONLY_DATABASE_STATS [ \fIboolean\fR ]
-    BUFFER_USAGE_LIMIT [ \fIsize\fR ]
+    BUFFER_USAGE_LIMIT \fIsize\fR
 
 and \fItable_and_columns\fR is:
 
@@ -328,6 +328,8 @@ Specifies a non\-negative integer value passed to the selected option\&.
 \fIsize\fR
 .RS 4
 Specifies an amount of memory in kilobytes\&. Sizes may also be specified as a string containing the numerical size followed by any one of the following memory units:
+B
+(bytes),
 kB
 (kilobytes),
 MB
