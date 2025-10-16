@@ -1,3 +1,41 @@
+postgresql-16 (16.4-3) unstable; urgency=medium
+
+  * Run regression tests with TZ America/Los_Angeles, cherry-pick from
+    upstream 2abc88958. (Closes: #1084320)
+
+ -- Christoph Berg <myon@debian.org>  Tue, 08 Oct 2024 16:59:40 +0200
+
+postgresql-16 (16.4-2) unstable; urgency=medium
+
+  * Stop building lib packages, postgresql-17 is in unstable.
+
+ -- Christoph Berg <myon@debian.org>  Mon, 07 Oct 2024 11:32:22 +0200
+
+postgresql-16 (16.4-1) unstable; urgency=medium
+
+  * New upstream version.
+
+    + Prevent unauthorized code execution during pg_dump (Masahiko Sawada)
+
+      An attacker able to create and drop non-temporary objects could inject
+      SQL code that would be executed by a concurrent pg_dump session with the
+      privileges of the role running pg_dump (which is often a superuser).
+      The attack involves replacing a sequence or similar object with a view
+      or foreign table that will execute malicious code.  To prevent this,
+      introduce a new server parameter restrict_nonsystem_relation_kind that
+      can disable expansion of non-builtin views as well as access to foreign
+      tables, and teach pg_dump to set it when available.  Note that the
+      attack is prevented only if both pg_dump and the server it is dumping
+      from are new enough to have this fix.
+
+      The PostgreSQL Project thanks Noah Misch for reporting this problem.
+      (CVE-2024-7348)
+
+  * Disable JIT on hurd-amd64.
+  * Restrict systemtap-sdt-dev B-D to linux-any.
+
+ -- Christoph Berg <myon@debian.org>  Wed, 07 Aug 2024 15:13:51 +0200
+
 postgresql-16 (16.3-1) unstable; urgency=medium
 
   * New upstream version.
