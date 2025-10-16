@@ -13,3 +13,4 @@ jit-s390x
 hurd-iovec
 v8-0001-Fix-recovery-conflict-SIGUSR1-handling.patch
 pgstat-report-conflicts-immediately.patch
+2abc88958039990ba82669aa9beebd394d06e9a2
