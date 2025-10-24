@@ -1,6 +1,6 @@
 #!/usr/bin/make -f
 
 MAJOR_VER := 16
-EXCLUDE_PACKAGES := -N libpq-dev -N libpq5 -N libecpg6 -N libecpg-dev -N libecpg-compat3 -N libpgtypes3
+#EXCLUDE_PACKAGES := -N libpq-dev -N libpq5 -N libecpg6 -N libecpg-dev -N libecpg-compat3 -N libpgtypes3
 
 include /usr/share/postgresql-common/server/postgresql.mk
