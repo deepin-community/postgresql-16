@@ -1,3 +1,9 @@
+postgresql-16 (16.4-3deepin1) unstable; urgency=medium
+
+  * chore: deepin add build lib packages
+
+ -- hudeng <hudeng@deepin.org>  Fri, 24 Oct 2025 13:39:04 +0800
+
 postgresql-16 (16.4-3) unstable; urgency=medium
 
   * Run regression tests with TZ America/Los_Angeles, cherry-pick from
